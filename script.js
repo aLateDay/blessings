@@ -6,10 +6,16 @@ const blessings = [
   "一切都会变好的 💫",
   "心情要好呀 🌈",
   "记得笑一笑 😊",
-  "好运永相随 🍀",
-  "注意保暖哦 🥰",
-  "好运正在路上 🛣️"
+  "活动一下 🍀",
+  "注意保暖 🥰",
+  "好运正在路上 🛣️",
+  "发财暴富 💰",
+  "美景在等你 ⛰️"
 ];
+
+// 存储所有弹窗的数组
+const popups = [];
+const MAX_POPUPS = 15; // 最多显示15个弹窗
 
 function showPopup(msg) {
   const popup = document.createElement('div');
@@ -22,6 +28,16 @@ function showPopup(msg) {
   const y = 80 + Math.random() * (window.innerHeight - 180);
   popup.style.left = `${x}px`;
   popup.style.top = `${y}px`;
+
+  // 添加到数组
+  popups.push(popup);
+
+  // 如果超过最大数量，移除最早的弹窗
+  if (popups.length > MAX_POPUPS) {
+    const oldPopup = popups.shift();
+    oldPopup.style.opacity = '0';
+    setTimeout(() => oldPopup.remove(), 300);
+  }
 }
 
 function loopBlessings() {
@@ -72,15 +88,28 @@ window.onload = () => {
   const mainTitle = document.getElementById('mainTitle');
   const bgm = document.getElementById('bgm');
 
+  // 设置音量
+  bgm.volume = 0.5;
+
   startBtn.addEventListener('click', () => {
     // 隐藏开始屏幕
     startScreen.style.display = 'none';
     mainTitle.style.display = 'block';
 
-    // 播放音乐
-    bgm.play().catch(err => {
-      console.log('音频播放失败:', err);
-    });
+    // 播放音乐 - 添加更多尝试
+    const playPromise = bgm.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log('音乐播放成功！');
+      }).catch(err => {
+        console.error('音频播放失败:', err);
+        // 如果自动播放失败，尝试在用户交互后再次播放
+        document.body.addEventListener('click', () => {
+          bgm.play().catch(e => console.error('重试播放失败:', e));
+        }, { once: true });
+      });
+    }
 
     // 开始显示祝福
     loopBlessings();
