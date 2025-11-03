@@ -1,3 +1,4 @@
+
 const blessings = [
   "好好吃饭 🍚",
   "早点睡觉 😴",
@@ -42,12 +43,18 @@ function showPopup(msg) {
 
 function loopBlessings() {
   let i = 0;
+
+  // 立即显示第一个弹窗
+  showPopup(blessings[i]);
+  i = (i + 1) % blessings.length;
+
+  // 然后每秒显示一个
   function next() {
     showPopup(blessings[i]);
     i = (i + 1) % blessings.length;
-    setTimeout(next, 1000); // 更快，每秒一条
+    setTimeout(next, 1000);
   }
-  next();
+  setTimeout(next, 1000);
 }
 
 function playMusic() {
@@ -110,11 +117,11 @@ window.onload = () => {
 
   // 按钮只控制弹窗的显示
   startBtn.addEventListener('click', () => {
-    // 隐藏开始屏幕
+    // 立即隐藏开始屏幕（无延迟）
     startScreen.style.display = 'none';
     mainTitle.style.display = 'block';
 
-    // 开始显示祝福
+    // 立即开始显示祝福（无延迟）
     loopBlessings();
   });
 };
