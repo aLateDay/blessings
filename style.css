@@ -1,3 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
@@ -55,12 +63,16 @@ footer {
   font-size: 1.3em;
   background: rgba(255, 255, 255, 0.9);
   border: none;
+  outline: none;
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   font-weight: 600;
   color: #333;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 #startBtn:hover {
@@ -71,4 +83,20 @@ footer {
 /* 隐藏音频播放器 */
 audio {
   display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* 移除所有可能的边框和轮廓 */
+button:focus,
+button:active {
+  outline: none;
+  border: none;
+}
+
+input, textarea, select {
+  outline: none;
+  border: none;
 }
