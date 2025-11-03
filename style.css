@@ -23,6 +23,8 @@ h1 {
   color: #444;
   margin-top: 20px;
   font-weight: 600;
+  border: none;
+  outline: none;
 }
 
 footer {
@@ -56,6 +58,8 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 30px;
+  border: none;
+  outline: none;
 }
 
 #startBtn {
@@ -99,4 +103,20 @@ button:active {
 input, textarea, select {
   outline: none;
   border: none;
+}
+
+/* 清除所有可能的边框 */
+div, h1, h2, h3, p, span {
+  border: none;
+  outline: none;
+}
+
+/* 移除所有元素的默认边框和轮廓 */
+*:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+*:active {
+  outline: none !important;
 }
