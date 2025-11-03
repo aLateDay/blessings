@@ -91,25 +91,28 @@ window.onload = () => {
   // 设置音量
   bgm.volume = 0.5;
 
+  // 音乐在页面加载时就开始播放（不等按钮）
+  const playPromise = bgm.play();
+
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      console.log('音乐自动播放成功！');
+    }).catch(err => {
+      console.error('自动播放失败，等待用户交互:', err);
+      // 如果自动播放失败，在用户点击按钮时播放
+      startBtn.addEventListener('click', () => {
+        bgm.play().then(() => {
+          console.log('用户交互后音乐播放成功！');
+        }).catch(e => console.error('播放失败:', e));
+      }, { once: true });
+    });
+  }
+
+  // 按钮只控制弹窗的显示
   startBtn.addEventListener('click', () => {
     // 隐藏开始屏幕
     startScreen.style.display = 'none';
     mainTitle.style.display = 'block';
-
-    // 播放音乐 - 添加更多尝试
-    const playPromise = bgm.play();
-
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log('音乐播放成功！');
-      }).catch(err => {
-        console.error('音频播放失败:', err);
-        // 如果自动播放失败，尝试在用户交互后再次播放
-        document.body.addEventListener('click', () => {
-          bgm.play().catch(e => console.error('重试播放失败:', e));
-        }, { once: true });
-      });
-    }
 
     // 开始显示祝福
     loopBlessings();
